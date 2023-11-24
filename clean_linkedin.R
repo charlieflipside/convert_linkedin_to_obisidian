@@ -6,7 +6,26 @@ shared <- readr::read_csv("linkedin-exports/Shares.csv")
 shared <- shared[, c("Date", "ShareLink", "ShareCommentary")]
 shared <- unique(shared)
 
-shared$ShareCommentary <- gsub(pattern = "\"\"|\"|#\\S+", "", shared$ShareCommentary)
+remove_quotes <- function(txt){
+  gsub(pattern = "\"\"|\"", "", txt)
+}
+
+remove_skips <- function(txt){
+  # Replace multiple consecutive newline characters with just one newline
+  txt <- gsub(pattern = "\\r+|\\n+", "\n", txt)
+  txt <- gsub(pattern = "\r+|\n+", "\n", txt)
+  txt <- gsub(pattern = "---+", "", txt)
+  
+  # Remove leading and trailing newlines
+  txt <- gsub(pattern = "^\\s*\n+|\\s*\n+$", "", txt)
+  txt <- gsub(pattern = "^\\s*\n+|\\s*\n+$", "", txt)
+  
+  return(txt)
+}
+
+shared$ShareCommentary <- remove_quotes(shared$ShareCommentary)
+
+shared$ShareCommentary <- remove_skips(shared$ShareCommentary)
 shared$length <- nchar(shared$ShareCommentary)
 
 shared <- shared[shared$length >= 100, ]
