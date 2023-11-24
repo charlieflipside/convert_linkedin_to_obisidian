@@ -3,10 +3,13 @@ library(readr) # handles common csv issues like line breaks better
 library(tm) # stopwords 
 
 shared <- readr::read_csv("linkedin-exports/Shares.csv")
+shared <- shared[, c("Date", "ShareLink", "ShareCommentary")]
+shared <- unique(shared)
 
+shared$ShareCommentary <- gsub(pattern = "\"\"|\"|#\\S+", "", shared$ShareCommentary)
 shared$length <- nchar(shared$ShareCommentary)
 
-shared <- shared[shared$length >= 400, ]
+shared <- shared[shared$length >= 100, ]
 
 # Clean Comments ----
 comments <- readr::read_csv("linkedin-exports/Comments.csv")
@@ -45,19 +48,47 @@ apply_tags <- function(txt, tags_tbl){
     }))
     
     tags <- unique( c(tags_tbl$consolidated_category[ct_index], tags_tbl$category[ct_index]) )
-    
+    if(length(tags) == 0){
+      tags = ""
+    }
     return(tags)
 }
   
 tags_list <- lapply(cleaned_text, apply_tags, tags_tbl = tags_tbl)
 
+# first n words as title ----
+
+extract_first_n_words <- function(input_text, n = 6) {
+  # Create a Corpus from the input text
+  corpus <- Corpus(VectorSource(input_text))
+  
+  # Define a function to preprocess the text
+  preprocess_text <- function(text) {
+    text <- tolower(text)
+    text <- removePunctuation(text)
+    text <- removeNumbers(text)
+    return(text)
+  }
+  
+  # Apply the preprocessing function to the corpus
+  corpus <- tm_map(corpus, content_transformer(preprocess_text))
+  
+  # Extract the first n words
+  content <- as.character(corpus[[1]])
+  words <- strsplit(content, "\\s+")[[1]]
+  first_n_words <- paste(words[1:min(n, length(words))], collapse = " ")
+  
+  return(first_n_words)
+}
+
+titles <-  unlist(lapply(shared$ShareCommentary, extract_first_n_words))
+
 # Create md frame ----
 
 note_frame <- {
-  "
----
+"---
 tags:
-  - THE_TAGS
+- THE_TAGS
 ---
   
 # TITLE
@@ -72,7 +103,7 @@ CONTENT
 
 # Swap frame ----
 
-swap_frame <- function(notetemplate = note_frame, tags ="",
+swap_frame <- function(notetemplate = note_frame, tags="",
                        title, systime, content, references = ""){
   
   note_frame <- gsub(pattern = 'TITLE', title, x = notetemplate) 
@@ -86,7 +117,7 @@ swap_frame <- function(notetemplate = note_frame, tags ="",
   } else if(ln > 1) {
     temp_tag = tags[1]
     for(i in 2:length(tags)){
-      temp_tag = paste0(temp_tag, "\n - ", temp_tag[i])
+      temp_tag = paste0(temp_tag, "\n- ", tags[i])
     }
     note_frame <- gsub(pattern = 'THE_TAGS', temp_tag, x = note_frame) 
   }
@@ -109,4 +140,15 @@ swap_frame <- function(notetemplate = note_frame, tags ="",
   return(note_frame)
 }
 
+for(i in 1:nrow(shared)){
+  
+  note <- swap_frame(note_frame, tags = tags_list[[i]], 
+                     title = titles[i],
+                     systime = substr(shared$Date[i], start = 0, stop = 16),
+                     content = shared$ShareCommentary[i],
+                     references = shared$ShareLink[i])
+  
+  write(note, file = paste0("outputs/", titles[i], ".md"))
+  
+}
 
