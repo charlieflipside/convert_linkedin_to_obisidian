@@ -1,0 +1,78 @@
+group,consolidated_category,category, terms
+1,data,data, data|datascience|breakingintodatascience|datascientists|cryptodatascience|database|datavisualization|metadata
+1,data,datascience, datascience
+1,data,breakingintodatascience, breakingintodatascience
+1,data,analysis, analysis|analytics|analyze
+1,data,visualization, datavisualization|dataviz|visualization| viz 
+2,politics,politics, political|politics|policy|government
+2,economics,economics, economics|economy|economic|economies|macro
+2,economics,money, money
+2,economics,market, market|markets
+2,economics,business, business|businesses
+2,politics,history, history 
+2,economics,finance, finance
+2,politics,society, society|social
+2,politics,policy, policy
+2,economics,sales, sales
+2,economics,poverty, poverty|poor
+2,economics,inflation, inflation
+2,politics,covid, covid
+2,economics,management, management
+2,economics,innovation, innovation
+2,economics,consulting, consulting
+2,economics,customers, customers
+2,politics,governance, governance
+2,politics,capitalist, capitalist
+2,politics,culture, culture
+2,politics,education, education
+2,economics,stablecoin, stablecoins|stablecoin
+2,economics,stocks, stocks
+2,economics,fiat, fiat
+2,technology,solidity, solidity
+2,politics,taxes, taxes
+2,economics,competition, competition
+2,economics,unemployment, unemployment
+2,politics,housing,housing
+2,politics,death, death
+2,politics,birth, birth
+2,politics,regulation, regulation|regulatory|regulations
+2,politics,china, china
+3,crypto,crypto, crypto|crytography|web3|metaverse
+3,crypto,ethereum, ethereum| eth |ether|weth|cbeth|freth|steth
+3,crypto,nft, nft | nfts
+3,crypto,bitcoin, bitcoin|btc
+3,crypto,tokens, token|tokens
+3,crypto,liquidity, liquidity|liquid
+3,crypto,defi, defi|decentralized|decentralization
+3,crypto,contracts, smart contracts|contracts
+3,crypto,uniswap, uniswap
+3,crypto,opensea, opensea
+3,crypto,coinbase, coinbase
+3,crypto,dao, dao|daos
+3,crypto,ecosystem, ecosystem
+3,crypto,metaverse, metaverse
+3,crypto,tokenomics, tokenomics
+3,crypto,polygon, polygon
+3,crypto,blockspace, blockspace
+3,crypto,nodes, nodes
+4,technology,technology, technology|tech|fintech|technologies|technical
+4,technology,product, product|products
+4,technology,internet,internet
+4,data,rstats, rstats
+4,data,python, python
+4,technology,google, google
+4,data,programming, programming
+4,technology,ai ,  ai |artificial intelligence|machinelearning|llm
+4,technology,github, github|git 
+4,crypto,charliedao, charlidao
+4,technology,api, api
+4,crypto,flipside, flipside
+4,technology,amazon, amazon|aws
+4,technology,facebook, facebook
+4,technology,youtube, youtube
+4,technology,chatgpt, chatgpt|openai
+4,technology,microsoft, microsoft
+4,technology,startup, startup
+4,technology,bootcamp, bootcamp
+5,crazy,crazy, crazy
+5,paradox,paradox, paradox
