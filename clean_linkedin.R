@@ -34,19 +34,6 @@ corpus <- tm_map(corpus, removeWords, stopwords("en"))
 # Retrieve the cleaned text
 cleaned_text <- sapply(corpus, as.character)
 
-# Term frequency matrix ----
-
-corpus <- Corpus(VectorSource(cleaned_text))
-tdm <- DocumentTermMatrix(corpus)
-term_freq_matrix <- as.matrix(tdm)
-head(term_freq_matrix)
-
-term_freq <- as.data.frame(colSums(term_freq_matrix))
-term_freq$term <- rownames(term_freq)
-colnames(term_freq) <- c("count","term")
-
-x = term_freq[term_freq$count > 10, ]
-
 # Select terms as tags ----
 
 tags_tbl <- read_csv("select_tags.csv")
